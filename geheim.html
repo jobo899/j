@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>streng geheim</title>
+
+    <style>
+        body {
+            background-color: black;
+            color: #00ff00;
+            font-family: monospace;
+            margin: 0;
+            padding: 20px;
+        }
+
+        #terminal {
+            max-width: 800px;
+            margin: auto;
+        }
+
+        .line::after {
+            content: "|";
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0% { opacity: 1; }
+            50% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 10px;
+            background: black;
+            color: #00ff00;
+            border: 1px solid #00ff00;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+<div id="terminal">
+    <h1>Streng Geheim</h1>
+    <p>Dies sind die streng geheimen Informationen</p>
+
+    <button onclick="startTerminal()">Geheime Informationen anzeigen</button>
+
+    <div id="output"></div>
+</div>
+
+<script>
+function typeLine(text, callback) {
+    const output = document.getElementById("output");
+    const line = document.createElement("div");
+    line.classList.add("line");
+    output.appendChild(line);
+
+    let i = 0;
+    const interval = setInterval(() => {
+        line.textContent = text.substring(0, i);
+        i++;
+        if (i > text.length) {
+            clearInterval(interval);
+            line.classList.remove("line");
+            if (callback) callback();
+        }
+    }, 40);
+}
+
+function startTerminal() {
+    const lines = [
+        "> Verbindung wird hergestellt...",
+        "> IP gefunden: 192.168.0.1",
+        "> Umgehe Firewall...",
+        "> Zugriff auf System...",
+        "> Daten werden extrahiert...",
+        "> ZUGRIFF GEWÄHRT"
+    ];
+
+    let i = 0;
+
+    function nextLine() {
+        if (i < lines.length) {
+            typeLine(lines[i], () => {
+                i++;
+                setTimeout(nextLine, 300);
+            });
+        }
+    }
+
+    nextLine();
+}
+</script>
+
+</body>
+</html>

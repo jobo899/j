@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <title>OnclickPasswort</title>
+    <style>
+     body {
+       background-color: lightblue;
+       padding: 30px;
+     }
+     </style>
+     <script>
+         function checkPasswort() {
+            var passwort = document.getElementById("passwortFeld");
+            var passwortText = passwort.value;
+            if(passwortText == "programmieren") {
+              return true;
+            }
+            else {
+                  alert("Zugriff verweigert! Passwort falsch!");
+                  return false;
+            }
+           }
+      </script>
+</head>
+<body>
+   <p style="font-size: 30pt;"> </p>
+   <p>Bitte gib das Passwort für diese Seite ein.</p>
+   <p>Passwort:<input id="passwortFeld" type="password"/></p>
+   <a href="geheim.html.html" onclick="return checkPasswort();">
+     Klicke für Passworteingabe und Aufruf der Website
+   </a>
+   <br>
+   <p>Finden sie den Code raus wir haben die rätsel auf den seiten versteckt</p>
+   <br>
+   <br>
+   <h3>Viel Glück</h3>
+</body>
+</html>

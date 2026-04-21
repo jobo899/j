@@ -1,39 +1,44 @@
 <!DOCTYPE html>
-<html>
+<html lang="de">
 <head>
-    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>OnclickPasswort</title>
     <style>
-     body {
-       background-color: lightblue;
-       padding: 30px;
-     }
-     </style>
-     <script>
-         function checkPasswort() {
-            var passwort = document.getElementById("passwortFeld");
-            var passwortText = passwort.value;
-            if(passwortText == "programmieren") {
-              return true;
+      body {
+        background-color: lightblue;
+        padding: 30px;
+        font-family: Arial, sans-serif;
+      }
+    </style>
+    <script>
+        function checkPasswort() {
+            var passwortFeld = document.getElementById("passwortFeld");
+            var passwortText = passwortFeld.value.trim();
+            
+            // WICHTIG: Passwort sollte server-seitig validiert werden!
+            // Dies ist nur zu Demonstrationszwecken:
+            if(passwortText === "programmieren") {
+                return true;
             }
             else {
-                  alert("Zugriff verweigert! Passwort falsch!");
-                  return false;
+                alert("Zugriff verweigert! Passwort falsch!");
+                passwortFeld.value = "";
+                return false;
             }
-           }
-      </script>
+        }
+    </script>
 </head>
 <body>
-   <p style="font-size: 30pt;"> </p>
-   <p>Bitte gib das Passwort für diese Seite ein.</p>
-   <p>Passwort:<input id="passwortFeld" type="password"/></p>
-   <a href="geheim.html" onclick="return checkPasswort();">
-     Klicke für Passworteingabe und Aufruf der Website
-   </a>
-   <br>
-   <p>Finden sie den Code raus wir haben die rätsel auf den seiten versteckt</p>
-   <br>
-   <br>
-   <h3>Viel Glück</h3>
+    <p style="font-size: 30pt;">🔐</p>
+    <p>Bitte gib das Passwort für diese Seite ein.</p>
+    <p>Passwort: <input id="passwortFeld" type="password" autocomplete="off"/></p>
+    <a href="geheim.html" onclick="return checkPasswort();">
+      Klicke für Passworteingabe und Aufruf der Website
+    </a>
+    <br>
+    <p>Finden Sie den Code raus! Wir haben die Rätsel auf den Seiten versteckt.</p>
+    <br>
+    <h3>Viel Glück!</h3>
 </body>
 </html>

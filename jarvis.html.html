@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jarvis ULTRA</title>
+
+<link rel="manifest" href="manifest.json">
+
+<style>
+body {
+  margin: 0;
+  background: radial-gradient(circle, #0a0f1c, #000);
+  color: #00eaff;
+  font-family: Arial;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+/* HUD */
+.circle {
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  border: 2px solid #00eaff;
+  position: relative;
+  box-shadow: 0 0 40px #00eaff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 40px;
+}
+
+.circle::before, .circle::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  border: 2px solid #00eaff;
+  width: 100%;
+  height: 100%;
+  animation: rotate 6s linear infinite;
+}
+
+.circle::after {
+  width: 80%;
+  height: 80%;
+  top: 10%;
+  left: 10%;
+  animation-direction: reverse;
+}
+
+@keyframes rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+#output {
+  margin-top: 30px;
+  padding: 15px;
+  width: 90%;
+  max-width: 400px;
+  border: 1px solid #00eaff;
+  border-radius: 10px;
+  min-height: 80px;
+}
+
+.status {
+  margin-top: 10px;
+  font-size: 0.9rem;
+  opacity: 0.7;
+}
+</style>
+</head>
+
+<body>
+
+<div class="circle">Jarvis</div>
+<div id="output">Sag "Hey Jarvis"</div>
+<div class="status" id="status">🔴 Inaktiv</div>
+
+<script>
+// Elemente
+const output = document.getElementById("output");
+const statusText = document.getElementById("status");
+
+let listening = false;
+
+// 🔊 bessere Stimme
+function speak(text) {
+  const speech = new SpeechSynthesisUtterance(text);
+
+  const voices = speechSynthesis.getVoices();
+  const voice = voices.find(v => v.lang.includes("de") && v.name.toLowerCase().includes("google"));
+
+  if (voice) speech.voice = voice;
+
+  speech.lang = "de-DE";
+  speech.rate = 0.95;
+
+  speechSynthesis.speak(speech);
+}
+
+// 🧲 Memory
+function saveMemory(key, value) {
+  localStorage.setItem(key, value);
+}
+
+function getMemory(key) {
+  return localStorage.getItem(key);
+}
+
+// 🎤 Speech Recognition
+const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+const recognition = new SpeechRecognition();
+
+recognition.lang = "de-DE";
+recognition.continuous = true;
+
+recognition.onstart = () => {
+  statusText.innerText = "🟢 Höre...";
+};
+
+recognition.onend = () => {
+  recognition.start();
+};
+
+recognition.onresult = (event) => {
+  const text = event.results[event.results.length - 1][0].transcript.toLowerCase();
+
+  // Wake Word
+  if (text.includes("hey jarvis")) {
+    listening = true;
+    output.innerText = "Ja?";
+    speak("Ja?");
+    return;
+  }
+
+  if (listening) {
+    output.innerText = "Du: " + text;
+    respond(text);
+    listening = false;
+  }
+};
+
+// 🧠 Antworten
+function respond(input) {
+  let answer = "Das habe ich nicht verstanden.";
+
+  if (input.includes("hallo")) {
+    answer = "Hallo!";
+  }
+  else if (input.includes("zeit")) {
+    answer = "Es ist " + new Date().toLocaleTimeString();
+  }
+  else if (input.includes("youtube")) {
+    answer = "Ich öffne YouTube.";
+    window.open("https://youtube.com");
+  }
+  else if (input.includes("google")) {
+    answer = "Ich öffne Google.";
+    window.open("https://google.com");
+  }
+  else if (input.includes("mein name ist")) {
+    const name = input.split("mein name ist")[1].trim();
+    saveMemory("name", name);
+    answer = "Ich merke mir deinen Namen " + name;
+  }
+  else if (input.includes("wie heiße ich")) {
+    const name = getMemory("name");
+    answer = name ? "Du heißt " + name : "Ich kenne deinen Namen noch nicht.";
+  }
+
+  setTimeout(() => {
+    output.innerText += "\nJarvis: " + answer;
+    speak(answer);
+  }, 300);
+}
+
+// 📱 Service Worker (PWA)
+if ('serviceWorker' in navigator) {
+  const swCode = `
+    self.addEventListener("install", e => {
+      e.waitUntil(
+        caches.open("jarvis-cache").then(cache => {
+          return cache.addAll(["/"]);
+        })
+      );
+    });
+
+    self.addEventListener("fetch", e => {
+      e.respondWith(
+        caches.match(e.request).then(res => res || fetch(e.request))
+      );
+    });
+  `;
+
+  const blob = new Blob([swCode], { type: "text/javascript" });
+  const swURL = URL.createObjectURL(blob);
+  navigator.serviceWorker.register(swURL);
+}
+
+// Start
+recognition.start();
+</script>
+
+</body>
+</html>

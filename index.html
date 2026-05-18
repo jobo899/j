@@ -3,12 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Seite 161815718113139518514</title>
+    <title>Unsere erste Webseite</title>
+
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 20px;
+            background-color: #f4f4f4;
         }
+
+        h1 {
+            color: #333;
+        }
+
         a {
             display: inline-block;
             padding: 10px 15px;
@@ -18,20 +25,70 @@
             text-decoration: none;
             border-radius: 5px;
         }
+
         a:hover {
             background-color: #0056b3;
         }
+
+        #uhr {
+            margin-top: 20px;
+            font-size: 20px;
+            font-weight: bold;
+            color: #222;
+        }
     </style>
-</head>  
+</head>
 
-<body>   
+<body>
 
-    <h1>Moin</h1>
-    <a href="https://noka28.github.io/ich/">Seite von Noah</a>
-    
-    <p><strong>Hallo das ist unsere erste seite zusammen ich bin Noah und mein Freund heißt Jonas.</strong></p>
-    <br>
-    Wir <strong>programmieren</strong> gerne.
+    <h1>Moin 👋</h1>
+
+    <a href="https://noka28.github.io/ich/" target="_blank">
+        Seite von Noah
+    </a>
+
+    <p>
+        <strong>
+            Hallo, das ist unsere erste Seite zusammen.
+            Ich bin Jonas und mein Freund heißt Noah.
+        </strong>
+    </p>
+
+    <p>
+        Wir <strong>programmieren</strong> gerne.
+    </p>
+
     <a href="about.html">Geheime Seite</a>
+
+    <!-- Uhr -->
+    <div id="uhr"></div>
+
+    <script>
+        function updateUhr() {
+            const jetzt = new Date();
+
+            const optionen = {
+                weekday: "long",
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+                hour: "2-digit",
+                minute: "2-digit",
+                second: "2-digit"
+            };
+
+            const deutscheZeit = jetzt.toLocaleDateString("de-DE", optionen);
+
+            document.getElementById("uhr").innerHTML =
+                "🕒 Aktuelle Zeit: " + deutscheZeit;
+        }
+
+        // Sofort anzeigen
+        updateUhr();
+
+        // Jede Sekunde aktualisieren
+        setInterval(updateUhr, 1000);
+    </script>
+
 </body>
 </html>

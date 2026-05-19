@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>OnclickPasswort</title>
+    <title>Passwort</title>
     <style>
       body {
         background-color: lightblue;
@@ -16,8 +16,6 @@
             var passwortFeld = document.getElementById("passwortFeld");
             var passwortText = passwortFeld.value.trim();
             
-            // WICHTIG: Passwort sollte server-seitig validiert werden!
-            // Dies ist nur zu Demonstrationszwecken:
             if(passwortText === "programmieren") {
                 return true;
             }
@@ -34,11 +32,11 @@
     <p>Bitte gib das Passwort für diese Seite ein.</p>
   <p>Passwort: <input id="passwortFeld" type="password" autocomplete="off"/></p>
 <!--  hier link -->
-    <a href="" onclick="return checkPasswort();">
+    <a href="google.com" onclick="return checkPasswort();">
       Klicke für Passworteingabe und Aufruf der Website
     </a>
     <br>
-    <p>Finden Sie den Code raus! Wir haben die Rätsel auf den Seiten versteckt.</p>
+    <p>Finde den Code raus! Wir haben die Rätsel auf den Seiten versteckt.</p>
     <br>
     <h3>Viel Glück!</h3>
 </body>

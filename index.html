@@ -30,8 +30,8 @@
             background-color: #0056b3;
         }
 
-        #uhr {
-            margin-top: 20px;
+        .uhr {
+            margin-top: 15px;
             font-size: 20px;
             font-weight: bold;
             color: #222;
@@ -58,17 +58,13 @@
         </strong>
     </p>
 
-    <p>
-    
-    </p>
-
-
-
-    <!-- Uhr -->
-    <div id="uhr"></div>
+    <!-- Uhren -->
+    <div id="uhrDeutschland" class="uhr"></div>
+    <div id="uhrJapan" class="uhr"></div>
+    <div id="uhrAustralien" class="uhr"></div>
 
     <script>
-        function updateUhr() {
+        function updateUhren() {
             const jetzt = new Date();
 
             const optionen = {
@@ -81,17 +77,39 @@
                 second: "2-digit"
             };
 
-            const deutscheZeit = jetzt.toLocaleDateString("de-DE", optionen);
+            // Deutschland
+            const deutschland = jetzt.toLocaleString("de-DE", {
+                ...optionen,
+                timeZone: "Europe/Berlin"
+            });
 
-            document.getElementById("uhr").innerHTML =
-                "🕒 Aktuelle Zeit: " + deutscheZeit;
+            // Japan
+            const japan = jetzt.toLocaleString("de-DE", {
+                ...optionen,
+                timeZone: "Asia/Tokyo"
+            });
+
+            // Australien (Sydney)
+            const australien = jetzt.toLocaleString("de-DE", {
+                ...optionen,
+                timeZone: "Australia/Sydney"
+            });
+
+            document.getElementById("uhrDeutschland").innerHTML =
+                "🇩🇪 Deutschland: " + deutschland;
+
+            document.getElementById("uhrJapan").innerHTML =
+                "🇯🇵 Japan: " + japan;
+
+            document.getElementById("uhrAustralien").innerHTML =
+                "🇦🇺 Australien: " + australien;
         }
 
         // Sofort anzeigen
-        updateUhr();
+        updateUhren();
 
         // Jede Sekunde aktualisieren
-        setInterval(updateUhr, 1000);
+        setInterval(updateUhren, 1000);
     </script>
 
 </body>

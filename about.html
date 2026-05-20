@@ -4,20 +4,32 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Passwort</title>
+
     <style>
       body {
         background-color: lightblue;
         padding: 30px;
         font-family: Arial, sans-serif;
       }
+
+      button {
+        margin-top: 10px;
+        padding: 8px 12px;
+        cursor: pointer;
+      }
     </style>
+
     <script>
         function checkPasswort() {
             var passwortFeld = document.getElementById("passwortFeld");
             var passwortText = passwortFeld.value.trim();
-            
+
             if(passwortText === "programmieren") {
-                return true;
+
+                // Weiterleitung
+                window.location.href = "https://jobo899.github.io/j/";
+
+                return false;
             }
             else {
                 alert("Zugriff verweigert! Passwort falsch!");
@@ -25,19 +37,47 @@
                 return false;
             }
         }
+
+        function passwortAnzeigen() {
+            var feld = document.getElementById("passwortFeld");
+
+            if (feld.type === "password") {
+                feld.type = "text";
+            } else {
+                feld.type = "password";
+            }
+        }
     </script>
 </head>
+
 <body>
+
     <p style="font-size: 30pt;">🔐</p>
+
     <p>Bitte gib das Passwort für diese Seite ein.</p>
-  <p>Passwort: <input id="passwortFeld" type="password" autocomplete="off"/></p>
-<!--  hier link -->
-    <a href="https://jobo899.github.io/j/"onclick="return checkPasswort();">
-      Klicke für Passworteingabe und Aufruf der Website
-    </a>
-    <br>
+
+    <p>
+        Passwort:
+        <input id="passwortFeld" type="password" autocomplete="off"/>
+    </p>
+
+    <button onclick="passwortAnzeigen()">
+        Passwort anzeigen
+    </button>
+
+    <br><br>
+
+    <button onclick="checkPasswort()">
+        Website öffnen
+    </button>
+
+    <br><br>
+
     <p>Finde den Code raus! Wir haben die Rätsel auf den Seiten versteckt.</p>
+
     <br>
+
     <h3>Viel Glück!</h3>
+
 </body>
 </html>
